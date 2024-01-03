@@ -16,12 +16,18 @@ public class Calculator {
         long rubles = (long) Math.floor(price);
         int kopecks = (int) Math.round((price - rubles) * 100);
 
-        //окончание
-        if (rubles == 1 && (kopecks == 0 || kopecks > 20)) {
-            return String.format("%.2f рубль", price).replace(",", ".");
+        // Определяем окончание для рублей
+        String rublesEnding;
+        if (rubles % 10 == 1 && rubles % 100 != 11) {
+            rublesEnding = "рубль";
+        } else if (rubles % 10 >= 2 && rubles % 10 <= 4 && (rubles % 100 < 10 || rubles % 100 >= 20)) {
+            rublesEnding = "рубля";
         } else {
-            return String.format("%.2f рубля", price).replace(",", ".");
+            rublesEnding = "рублей";
         }
+
+        // Форматируем и возвращаем строку с суммой и окончанием
+        return String.format("%.2f %s", price, rublesEnding).replace(".", ",");
     }
 
     public void showAllAddedProducts() {
@@ -41,9 +47,22 @@ public class Calculator {
                 break;
             }
 
-            System.out.println("Введите стоимость товара в формате рубли.копейки:");
-            String priceInput = scanner.nextLine();
-            double price = Double.parseDouble(priceInput);
+            boolean validPrice = false;
+            double price = 0.0;
+            while (!validPrice) {
+                System.out.println("Введите стоимость товара в формате рубли.копейки:");
+                String priceInput = scanner.nextLine();
+                try {
+                    price = Double.parseDouble(priceInput);
+                    if (price <= 0) {
+                        System.out.println("Ошибка: стоимость товара должна быть положительной.");
+                    } else {
+                        validPrice = true;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Ошибка: некорректный формат цены.");
+                }
+            }
 
             addProductToCalculator(productName, price);
             System.out.println("Товар успешно добавлен в калькулятор.");

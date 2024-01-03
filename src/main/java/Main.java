@@ -7,14 +7,17 @@ public class Main {
         int guests;
         while (true) {
             System.out.println("Введите количество людей для разделения счета (больше 1):");
-            guests = scanner.nextInt();  // Получаем ввод от пользователя
-            scanner.nextLine();
-            if (guests == 1) {
-                System.out.println("Ошибка: количество гостей должно быть больше 1.");
-            } else if (guests < 1) {
+            String input = scanner.nextLine();
+            try {
+                guests = Integer.parseInt(input);  // Пытаемся преобразовать строку в целое число
+                if (guests <= 1) {
+                    System.out.println("Ошибка: количество гостей должно быть больше 1.");
+                    continue;  // Продолжаем цикл, если введено некорректное значение
+                } else {
+                    break;  // Выходим из цикла, если введено корректное значение
+                }
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка: некорректное значение для подсчета.");
-            } else {
-                break;  // Выходим из цикла, если введено корректное значение
             }
         }
 
@@ -29,3 +32,4 @@ public class Main {
         scanner.close();
     }
 }
+
