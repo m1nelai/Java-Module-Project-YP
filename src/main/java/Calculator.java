@@ -65,7 +65,7 @@ public class Calculator {
             }
 
             addProductToCalculator(productName, price);
-            System.out.println("Товар успешно добавлен в калькулятор.");
+            System.out.println("Товар успешно добавлен в калькулятор");
 
             System.out.println("Хотите добавить ещё один товар? Введите 'завершить' чтобы закончить");
             String decision = scanner.nextLine();
